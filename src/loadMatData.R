@@ -1,57 +1,58 @@
 # Loading matlab data
 library(R.matlab)
 
+source("./src/functions/NearestNeighbor.R")
 
 # These are the 3D coordinates of the surrogate plot.
-input.data <- readMat("input_resampled.mat")
+input.data <- readMat("./test/exampledata/input_resampled.mat")
 # input.data[["input"]] is a 9261x3 matrix: [,1] is x, [,2] is y, and [,3] is z.
+input.real<-input.data[["input"]]
+input.scaled<-scale.dots(input.real,range(input.real[,1]), range(input.real[,2]), range(input.real[,3]))
 
 # These are the values of the scalar surrogate plot.
-fmat.data <- readMat("clcd_resampled_long.mat")
+fmat.data <- readMat("./test/exampledata/clcd_resampled_long.mat")
 # fmat.data[["fmat"]] is a 9261x1 vector which are the scalar values, each row corresponds to the 3D
 # coordinates in input.data[["input"]].
+surrogate<-fmat.data[["fmat"]]
 
-# I'd ultimately like to have a vector of positions [n, 3] like this,
-# where I'm generating 100 random positions within the input space:
-n <- 100
-dots <- matrix(data = 0, nrow = n, ncol = 3)
-dots[, 1] <-
-  runif(n,
-        min = min(input.data[["input"]][, 1]),
-        max = max(input.data[["input"]][, 1]))
-dots[, 2] <-
-  runif(n,
-        min = min(input.data[["input"]][, 2]),
-        max = max(input.data[["input"]][, 2]))
-dots[, 3] <-
-  runif(n,
-        min = min(input.data[["input"]][, 3]),
-        max = max(input.data[["input"]][, 3]))
+test.dot<-c(10.11, 0.19866, 117500)
+test.dot<-matrix(data=NA, nrow = 10, ncol = 3)
+test.dot[1,] <-  c(10.11, 0.19866, 117500)
+test.dot[2,] <- c(7.98, 0.09866, 107534)
+test.dot[3,] <- c(4.11, 0.166, 75000)
+test.dot[4,] <- c(4.11, 0.166, 75000)
+test.dot[5,] <- c(4.11, 0.166, 75000)
+test.dot[6,] <- c(4.11, 0.166, 75000)
+test.dot[7,] <- c(4.11, 0.166, 75000)
+test.dot[8,] <- c(4.11, 0.166, 75000)
+test.dot[9,] <- c(4.11, 0.166, 75000)
+test.dot[10,] <- c(4.11, 0.166, 75000)
 
-# I'd like to search for the indices within input.data[["input"]] that correspond to the 2 or 3 closest
-# input values to each dot position.
-# Then I'd use those indices to select the scalar value of the closest positions in
-# fmat.data[["fmat"]].
+sample.dot<-scale.dots(test.dot, 
+                       range(input.real[,1]), range(input.real[,2]), range(input.real[,3]))
+idxs<-list()
+mean.ps<-rep(NA, length=10)
+for (k in 1:length(sample.dot)){
+  idxs <- GetNeighbors(input.scaled, sample.dot[[k]], 3)
+  idxs.df <- data.frame(input.real[idxs[[1]]$index,], 
+                             input.real[idxs[[2]]$index,], 
+                             input.real[idxs[[3]]$index,])
+  values.df <- data.frame(surrogate[idxs[[1]]$index], 
+                          surrogate[idxs[[2]]$index], 
+                          surrogate[idxs[[3]]$index])
+  wgts <- 1 - 20*c(idxs[[1]]$distance,idxs[[2]]$distance, idxs[[3]]$distance)
+  mean.ps[k] <- weighted.mean(as.numeric(values.df), wgts)
+}
 
-# Right now, each point gets its own list, which probably won't work long-term for the data set I
-# want to use (the surrogate function it has 201^3 points and I'd like to run it with between
-# 10,000 and 100,000 dots).
-# It would be great if each coordinate could have its own element of the list, like this:
-#new.input<-list(input.data[["input"]][,1],input.data[["input"]][,2],input.data[["input"]][,3]) # old line
-#names(new.input)<-c("x","y","z")
 
-new.input <-
-  matrix(data = NA,
-         ncol = 3,
-         nrow = length(input.data[["input"]][, 1]))
-new.input[, 1] <- input.data[["input"]][, 1]
-new.input[, 2] <- input.data[["input"]][, 2]
-new.input[, 3] <- input.data[["input"]][, 3]
 
-# And calling the function would look like:
-ans <-
-  GetNeighbors(apply(new.input, 1, as.list), apply(dots, 1, as.list)[[1]], 3)
-# I could use ans in fmat to return values:
-#fmat.values<-fmat.data[["fmat"]][ans]
-# What do you think? Everything is flexible.
-print(ans)
+plot(input.real[,1],input.real[,2])
+points(test.dot[1],test.dot[2],pch=19,col="blue")
+points(idxs.df[1,],idxs.df[2,],pch=19,col="red")
+print(values.df)
+
+
+mean.ps <- weighted.mean(as.numeric(values.df), wgts)
+resid.ps <- mean.ps - as.numeric(values.df)
+  
+  

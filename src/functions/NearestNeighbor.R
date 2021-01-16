@@ -24,7 +24,9 @@ GetNeighbors <- function(vectors, testVector, desiredNeighbors) {
   
   neighbors <- list()
   for (i in 1:desiredNeighbors) {
-    neighbors[[i]] <- sortedDistances[[i]]$index
+    neighbors[[i]]<-list()
+    neighbors[[i]][["index"]] <- sortedDistances[[i]]$index
+    neighbors[[i]][["distance"]] <- sortedDistances[[i]]$distance
   }
   return(neighbors)
 }

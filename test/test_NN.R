@@ -1,5 +1,15 @@
 # Test Nearest Neighbor functions
+library(R.matlab)
+
 source("./src/functions/NearestNeighbor.R")
+
+# These are the 3D coordinates of the surrogate plot.
+input.data <- readMat("./test/exampledata/input_resampled.mat")
+# input.data[["input"]] is a 9261x3 matrix: [,1] is x, [,2] is y, and [,3] is z.
+input<-input.data[["input"]]
+
+# These are the values of the scalar surrogate plot.
+fmat.data <- readMat("./test/exampledata/clcd_resampled_long.mat")
 
 dataset = list(
   #Can of course be imported from a file or defined inline.
@@ -17,4 +27,5 @@ dataset = list(
 
 pts <- GetNeighbors(dataset, dataset[[1]], 3)
 pts.df <- data.frame(dataset[[pts[[1]]]], dataset[[pts[[2]]]], dataset[[pts[[3]]]])
+
 
