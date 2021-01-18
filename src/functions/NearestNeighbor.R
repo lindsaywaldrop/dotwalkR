@@ -60,3 +60,33 @@ getMeanValue <- function(vectors, values, testVector, desiredNeighbors) {
   }
   return(means)
 }
+
+find.betas <- function(dots, gradX, gradY, gradZ, input.real, input.scaled, delta.t){
+  scaled.dots <- scale.dots(dots, range(input.real[, 1]), 
+                            range(input.real[, 2]), 
+                            range(input.real[, 3]))
+  dx <- getMeanValue(input.scaled, gradX, scaled.dots, dN)
+  dy <- getMeanValue(input.scaled, gradY, scaled.dots, dN)
+  dz <- getMeanValue(input.scaled, gradZ, scaled.dots, dN)
+  beta<-matrix(data = c(dx,dy,dz), ncol = 3)
+  return(beta)
+}
+
+generaterandM <- function(n){
+  a=-1;  
+  b=1;
+  M = (b-a)*runif(n)+a
+}
+
+herd.dots <- function(dots, position, range.dots){
+  escaped.low <- which(dots[,position]<range.dots[1])
+  escaped.high <- which(dots[,position]>range.dots[2])
+  if (length(escaped.low)>0) {
+    dots[escaped.low,position] <- range.dots[1]
+  }
+  if (length(escaped.high)>0) {
+    dots[escaped.high,position] <- range.dots[2]
+  }
+  return(dots)
+}
+

@@ -17,3 +17,8 @@ scale.dots <- function(dots, x.range, y.range, z.range){
   }
   return(dots.scaled)
 }
+
+save.dots <- function(dots, t){
+  filename <- paste("./results/dots_",t,".csv", sep = "")
+  fwrite(data.frame(dots), file = filename, append = TRUE, sep = " ", nThread = 2)
+}
