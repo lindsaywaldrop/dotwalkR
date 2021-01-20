@@ -15,7 +15,8 @@ load.matdata <- function(surrogate.type, data.type, test = FALSE){
     mat.data <- readMat(paste(folder.loc, surrogate.type, data.type, tmp.ext, sep = ""))
     data <- mat.data[["input"]]
   } else if (data.type == "SI" || data.type == "SI_long") {
-    data.type == "SI"
+    tmp.type <- strsplit(surrogate.type, "_")
+    surrogate.type <- tmp.type[[1]][1]
     SI.data <- readMat(paste(folder.loc, surrogate.type, "_SI", tmp.ext, sep = ""))
     A<-SI.data[["A"]]
     data<-as.matrix(A) 

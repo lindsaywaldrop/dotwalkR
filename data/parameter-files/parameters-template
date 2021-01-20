@@ -10,4 +10,4 @@ k 0.0001
 t.save.interval 100
 copl 4
 test TRUE
-surrogate.name clcd
+surrogate.name clvz

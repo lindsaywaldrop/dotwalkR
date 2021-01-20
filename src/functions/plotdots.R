@@ -8,8 +8,8 @@ plotdot <- function(run.name, t, interval, clr){
 
 library(viridis)
 
-run.name <- "run_2021-01-20_no2"
-n <- 2000
+run.name <- "run_2021-01-20_no4"
+n <- 100
 dt <- 100
 interval <- 1
 dots_0 <- read.table(paste("./results/", run.name, "/dots_0.csv", sep = ""), sep = " ", header = TRUE)

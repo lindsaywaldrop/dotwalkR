@@ -45,6 +45,7 @@ surrogate <- load.matdata(surrogate.name, "surrogate", test = TRUE)
 gradX <- load.matdata(surrogate.name, "gradx", test = TRUE)
 gradY <- load.matdata(surrogate.name, "grady", test = TRUE)
 gradZ <- load.matdata(surrogate.name, "gradz", test = TRUE)
+A <- load.matdata(surrogate.name, "SI", test = TRUE)
 
 # Defines scaling parameter for random movements 
 randscale <- c(0.0450, 1e-3, 950) 
