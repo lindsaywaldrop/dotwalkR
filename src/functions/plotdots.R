@@ -9,7 +9,8 @@ plotdot <- function(run.name, t, interval, clr){
 library(viridis)
 
 run.name <- "run_2021-01-20_no4"
-n <- 100
+surrogate.name <- "CL at Vzmin"
+n <- 10000
 dt <- 100
 interval <- 1
 dots_0 <- read.table(paste("./results/", run.name, "/dots_0.csv", sep = ""), sep = " ", header = TRUE)
@@ -23,7 +24,7 @@ for (i in 0:(length(mean.values) - 1)) mean.values[i + 1] <- plotdot(run.name, i
 time <-seq(0, n, by = dt)
 par(mar = c(4, 4, 0.5, 1), fig = c(0, 1, 0, 0.3), new = TRUE)
 plot(x = seq(0, n, by = dt), y = mean.values, type = "l",
-     xlab = "Simulation Time", ylab = "Mean CLCD")
+     xlab = "Simulation Time", ylab = paste("Mean",surrogate.name))
 for (i in 1:length(mean.values)) points(x = time[i], y = mean.values[i], col=clr[i], pch = 19)
 
 

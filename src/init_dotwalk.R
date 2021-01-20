@@ -62,6 +62,7 @@ dots[, 3] <- rep(init.z, length = n)
 folder.name.tmp <- paste("./results/run", Sys.Date(), sep = "_")
 tmp.no <- 1
 folder.name <- paste(folder.name.tmp, "_no", tmp.no, sep = "")
+if(dir.exists("./results/") == FALSE) dir.create("./results/")
 while(dir.exists(folder.name) == TRUE) {
     folder.name <- paste(folder.name.tmp, "_no", tmp.no, sep = "")
     tmp.no <- tmp.no + 1
