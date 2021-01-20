@@ -22,4 +22,6 @@ fmat.data <- readMat("./test/exampledata/clcd_resampled_gradZ_long.mat")
 gradZ<-fmat.data[["gradz"]]
 rm(fmat.data)
 
-  
+SI.data<-readMat("./test/exampledata/clcd_SI.mat")
+A<-SI.data[["A"]]
+A<-as.matrix(A) 
