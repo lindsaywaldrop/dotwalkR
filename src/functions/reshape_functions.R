@@ -1,4 +1,36 @@
 #Reshape functions
+load.matdata <- function(surrogate.type, data.type, test = FALSE){
+  require(R.matlab)
+  if (test==TRUE) {
+    folder.loc <- "./test/exampledata/"
+    surrogate.type <- paste(surrogate.type, "_resampled_", sep = "")
+    data.type <- paste(data.type, "_long", sep = "")
+    tmp.ext <- ".mat"
+  } else {
+    folder.loc <- paste("./data/", surrogate.type, "/", sep = "")
+    surrogate.type <- paste(surrogate.type, "_", sep = "")
+    tmp.ext <- ".mat"
+  }
+  if (data.type == "input" || data.type == "input_long") {
+    mat.data <- readMat(paste(folder.loc, surrogate.type, data.type, tmp.ext, sep = ""))
+    data <- mat.data[["input"]]
+  } else if (data.type == "SI" || data.type == "SI_long") {
+    data.type == "SI"
+    SI.data <- readMat(paste(folder.loc, surrogate.type, "_SI", tmp.ext, sep = ""))
+    A<-SI.data[["A"]]
+    data<-as.matrix(A) 
+  } else if (data.type == "surrogate" || data.type == "surrogate_long") {
+    mat.data <- readMat(paste(folder.loc, surrogate.type, data.type, tmp.ext, sep = ""))
+    data.name <- "fmat"
+    data<-mat.data[[data.name]]
+  }  else {
+    mat.data <- readMat(paste(folder.loc, surrogate.type, data.type, tmp.ext, sep = ""))
+    data.name <- strsplit(data.type, "_")
+    data.name <- data.name[[1]][1]
+    data<-mat.data[[data.name]]
+  }
+  return(data)
+}
 
 scale.dots <- function(dots, x.range, y.range, z.range){
   # Reshapes 3D positions of dots based on ranges provided.
@@ -18,7 +50,7 @@ scale.dots <- function(dots, x.range, y.range, z.range){
   return(dots.scaled)
 }
 
-save.dots <- function(dots, t){
-  filename <- paste("./results/dots_",t,".csv", sep = "")
+save.dots <- function(folder.name, dots, t){
+  filename <- paste(folder.name, "/dots_",t,".csv", sep = "")
   fwrite(data.frame(dots), file = filename, append = TRUE, sep = " ", nThread = 2)
 }

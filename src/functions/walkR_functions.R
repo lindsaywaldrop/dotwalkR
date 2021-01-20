@@ -47,8 +47,8 @@ getMeanValue <- function(vectors, values, testVector, desiredNeighbors) {
   } else {
     stop("desiredNeighbors must be an integer or numeric")
   }
-  means<-rep(NA, length = dim(testVector)[1])
-  foreach(i=1:dim(testVector)[1]) %dopar% {
+  #means<-rep(NA, length = dim(testVector)[1])
+  means1<-foreach(i=1:dim(testVector)[1]) %dopar% {
     distances <- matrix(data = NA, nrow = dim(vectors)[1], ncol = 2)
     colnames(distances) <- c("index","distance")
     distances[, 1] <- seq(1:dim(vectors)[1])
@@ -64,8 +64,9 @@ getMeanValue <- function(vectors, values, testVector, desiredNeighbors) {
     idx <- sorted.distances[1:desiredNeighbors, ]
     wgts <- 1 - 20*(idx$distance)
     value <- values[idx$index]
-    means[i] <- weighted.mean(as.numeric(value), wgts)
+    weighted.mean(as.numeric(value), wgts)
   }
+  means<-unlist(means1)
   return(means)
 }
 
