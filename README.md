@@ -23,8 +23,9 @@ These are the current required packages that must be installed before running Do
 
 ## How to run
 The code is working, however, it is incomplete as of now. But if you'd like to play around with the code, feel free to:  
- 1. Change the default parameters in ./data/parameter-files/parameters-template. Each parameter name should be separated by a single space from its value. Currently, please leave test = TRUE. Valid choices for surrogate.name are clcd and clvz. You're welcome to change the number of cores to run the program on (copl) but it will automatically run on all available cores if this number is too big.
- 2. Run the main program by entering in the R console: 
+ 1. Open the RStudio R Project file associated with the code. 
+ 2. Change the default parameters in ./data/parameter-files/parameters-template. Each parameter name should be separated by a single space from its value. Currently, please leave test = TRUE. Valid choices for surrogate.name are clcd and clvz. You're welcome to change the number of cores to run the program on (copl) but it will automatically run on all available cores if this number is too big.
+ 3. Run the main program by entering in the R console: 
  `> source("./src/dotwalkr.R")`
  
 ## Parameter values in parameter-template
