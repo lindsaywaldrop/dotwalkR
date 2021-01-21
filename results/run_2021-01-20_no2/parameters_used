@@ -1,0 +1,9 @@
+n 100
+init.x 5.5
+init.y 0.1
+init.z 105000
+dN 3
+end.time 10000
+walktowards 1
+k 1e-04
+t.save.interval 100

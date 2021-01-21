@@ -5,10 +5,8 @@ library(parallel)
 require(doParallel)
 library(foreach)
 
-
 # Loading source code functions
 source("./src/functions/walkR_functions.R")
-source("./src/functions/reshape_functions.R")
 
 #### Loading parameters ####
 if (exists("parameter.filename") == FALSE){ 
@@ -31,16 +29,17 @@ for(i in 1:dim(parameters)[1]) {
 # Registering backend for parallel computing
 co <- detectCores()
 if (copl > co ) {
-  registerDoParallel(cores=co)
+  registerDoParallel(cores = co)
   message("Cores requested exceed the number available, using max detected.")
 } else {
-  registerDoParallel(cores=copl)
+  registerDoParallel(cores = copl)
 }
 
 # Loading input data 
 #source("./src/loadMatData.R")
 input.real <- load.matdata(surrogate.name, "input", test = TRUE)
-input.scaled<-scale.dots(input.real,range(input.real[,1]), range(input.real[,2]), range(input.real[,3]))
+input.scaled<-scale.dots(input.real, range(input.real[, 1]), 
+                         range(input.real[, 2]), range(input.real[, 3]))
 surrogate <- load.matdata(surrogate.name, "surrogate", test = TRUE)
 gradX <- load.matdata(surrogate.name, "gradx", test = TRUE)
 gradY <- load.matdata(surrogate.name, "grady", test = TRUE)

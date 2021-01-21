@@ -6,7 +6,7 @@
 source("./src/init_dotwalk.R")
 
 #### Initialize dotwalkr variables ####
-t <- 0 
+time.now <- 0 
 loopn <- 0
 id <- matrix(c(1, 1, 1), ncol = 1)
 newdots <- dots
@@ -18,13 +18,13 @@ if (t.save.interval != 0) {
                             range(input.real[, 3]))
   
   dots[,4] <- getMeanValue(input.scaled, surrogate, scaled.dots, 3)
-  save.dots(folder.name, dots, t)
+  save.dots(folder.name, dots, time.now)
 }
 
 #### Main program loop #### 
-print(paste("Simulation time:", round(t, digits=2),"s"))
+print(paste("Simulation time:", round(time.now, digits=2),"s"))
 
-while (t < end.time){ # Begin Main loop
+while (time.now < end.time){ # Begin Main loop
   
   beta <- find.betas(dots, gradX, gradY, gradZ, input.real, input.scaled, delta.t)
   deltaf <- matrix(data = NA,nrow = n, ncol = 3)
@@ -39,17 +39,17 @@ while (t < end.time){ # Begin Main loop
   newdots <- herd.dots(newdots,"z",range(input.real[,3]))
   
   dots <- newdots
-  t <- t + delta.t
+  time.now <- time.now + delta.t
   loopn <- loopn + 1
   
   if (t.save.interval != 0 && loopn %% t.save.interval == 0) {
-    print(paste("Simulation time:", round(t, digits=2),"s"))
+    print(paste("Simulation time:", round(time.now, digits=2),"s"))
     scaled.dots <- scale.dots(dots, range(input.real[, 1]), 
                               range(input.real[, 2]), 
                               range(input.real[, 3]))
     
     dots[,4] <- getMeanValue(input.scaled, surrogate, scaled.dots, 3)
-    save.dots(folder.name, dots, round(t, digits=2))}
+    save.dots(folder.name, dots, round(time.now, digits=2))}
   
 } # End main loop
 
