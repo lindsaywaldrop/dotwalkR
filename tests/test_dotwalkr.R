@@ -3,6 +3,7 @@
 #Adding required libraries
 library(testthat)
 library(R.matlab)
+library(doParallel)
 
 source("../src/functions/walkR_functions.R")
 
