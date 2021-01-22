@@ -4,9 +4,9 @@ init.y 0.1
 init.z 105000
 dN 3
 end.time 10000
-delta.t 1
+delta.t 0.1
 walktowards 1
-k 0.0001
+k 0.01
 t.save.interval 100
 copl 4
 test TRUE
