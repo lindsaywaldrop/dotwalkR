@@ -26,7 +26,7 @@ print(paste("Simulation time:", round(time.now, digits=2),"s"))
 
 while (time.now < end.time){ # Begin Main loop
   
-  beta <- find.betas(dots, gradX, gradY, gradZ, input.real, input.scaled, delta.t)
+  beta <- find.betas(dots, gradX, gradY, gradZ, input.real, input.scaled, dN, delta.t)
   deltaf <- matrix(data = NA,nrow = n, ncol = 3)
   for (j in 1:n) {
     M <- generaterandM(3) # Calculates initial M matrix of random numbers 

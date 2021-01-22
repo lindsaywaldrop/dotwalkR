@@ -59,6 +59,7 @@ load.matdata <- function(surrogate.type, data.type, example = TRUE, test = FALSE
     data.name <- data.name[[1]][1]
     data<-mat.data[[data.name]]
   }
+  if(is.null(data)) stop("Unexpected structure to MATLAB file, look again at the names of child objects!")
   return(data)
 }
 
@@ -135,7 +136,7 @@ getMeanValue <- function(vectors, values, testVector, desiredNeighbors) {
   return(means)
 }
 
-find.betas <- function(dots, gradX, gradY, gradZ, input.real, input.scaled, delta.t){
+find.betas <- function(dots, gradX, gradY, gradZ, input.real, input.scaled, dN, delta.t){
   scaled.dots <- scale.dots(dots, range(input.real[, 1]), 
                             range(input.real[, 2]), 
                             range(input.real[, 3]))
