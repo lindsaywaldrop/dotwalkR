@@ -18,7 +18,7 @@ parameters <- read.table(paste("./data/parameter-files/", parameter.filename, se
 for(i in 1:dim(parameters)[1]) {
   if (parameters$V1[i] == "surrogate.name") {
     tmp <- parameters$V2[i]
-  } else if (parameters$V1[i] == "test") {
+  } else if (parameters$V1[i] == "test" || parameters$V1[i] == "windows" || parameters$V1[i] == "example") {
     tmp <- as.logical(parameters$V2[i])
   }else {
     tmp<-as.numeric(parameters$V2[i])
@@ -27,24 +27,18 @@ for(i in 1:dim(parameters)[1]) {
 }
 
 # Registering backend for parallel computing
-co <- detectCores()
-if (copl > co ) {
-  registerDoParallel(cores = co)
-  message("Cores requested exceed the number available, using max detected.")
-} else {
-  registerDoParallel(cores = copl)
-}
+cluster <- register.backend(copl, windows)
 
 # Loading input data 
 #source("./src/loadMatData.R")
-input.real <- load.matdata(surrogate.name, "input", test = TRUE)
+input.real <- load.matdata(surrogate.name, "input", example = TRUE)
 input.scaled<-scale.dots(input.real, range(input.real[, 1]), 
                          range(input.real[, 2]), range(input.real[, 3]))
-surrogate <- load.matdata(surrogate.name, "surrogate", test = TRUE)
-gradX <- load.matdata(surrogate.name, "gradx", test = TRUE)
-gradY <- load.matdata(surrogate.name, "grady", test = TRUE)
-gradZ <- load.matdata(surrogate.name, "gradz", test = TRUE)
-A <- load.matdata(surrogate.name, "SI", test = TRUE)
+surrogate <- load.matdata(surrogate.name, "surrogate", example = TRUE)
+gradX <- load.matdata(surrogate.name, "gradx", example = TRUE)
+gradY <- load.matdata(surrogate.name, "grady", example = TRUE)
+gradZ <- load.matdata(surrogate.name, "gradz", example = TRUE)
+A <- load.matdata(surrogate.name, "SI", example = TRUE)
 
 # Defines scaling parameter for random movements 
 randscale <- c(0.0450, 1e-3, 950) 

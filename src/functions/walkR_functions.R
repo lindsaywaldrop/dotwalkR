@@ -1,11 +1,37 @@
 # DotWalkR functions
 
-load.matdata <- function(surrogate.type, data.type, test = FALSE){
+register.backend <- function(copl, windows = FALSE) {
+  co <- detectCores()
+  if (windows == TRUE) {
+    if (copl > co ) {
+      cluster <- makePSOCKcluster(co)
+      message("Cores requested exceed the number available, using max detected.")
+    } else {
+      cluster <- makePSOCKcluster(copl)
+    }
+    return(cluster)
+  } else {
+    if (copl > co ) {
+      registerDoParallel(cores = co)
+      message("Cores requested exceed the number available, using max detected.")
+    } else {
+      registerDoParallel(cores = copl)
+    }
+    return(NULL)
+  }
+}
+
+load.matdata <- function(surrogate.type, data.type, example = TRUE, test = FALSE){
   # Loading function which sets up matlab data in correct type. Specific naming structure 
   # for mat files required!
   require(R.matlab)
-  if (test==TRUE) {
-    folder.loc <- "./tests/exampledata/"
+  if (test == TRUE) {
+    folder.loc <- "./tests/testdata/"
+    surrogate.type <- paste(surrogate.type, "_resampled_", sep = "")
+    data.type <- paste(data.type, "_long", sep = "")
+    tmp.ext <- ".mat"
+  } else if (test == FALSE && example == TRUE) {
+    folder.loc <- paste("./data/example-data/", surrogate.type, "/", sep = "")
     surrogate.type <- paste(surrogate.type, "_resampled_", sep = "")
     data.type <- paste(data.type, "_long", sep = "")
     tmp.ext <- ".mat"

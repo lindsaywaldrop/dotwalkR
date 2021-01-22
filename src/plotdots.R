@@ -2,7 +2,7 @@ library(viridis)
 
 source("./src/functions/plot_functions.R")
 
-run.name <- "run_2021-01-21_no1"
+run.name <- "keckrun1"
 surrogate.name <- "CL at Vzmin"
 n <- 10000
 dt <- 100
