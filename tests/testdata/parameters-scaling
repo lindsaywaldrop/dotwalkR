@@ -1,0 +1,14 @@
+init.x 5.5
+init.y 0.1
+init.z 105000
+dN 3
+end.time 10
+delta.t 1
+walktowards 1
+k 0.00
+t.save.interval 10
+windows FALSE
+test TRUE
+example FALSE
+surrogate.name scaling
+use.SI TRUE

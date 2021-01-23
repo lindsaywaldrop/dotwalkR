@@ -32,6 +32,7 @@ for(i in 1:dim(parameters)[1]) {
 
 # Registering backend for parallel computing
 if(test == FALSE) cluster <- register.backend(copl, windows)
+if(test == TRUE && surrogate.name == "scaling") cluster <- register.backend(copl, windows)
 
 # Loading input data 
 #source("./src/loadMatData.R")
@@ -65,11 +66,17 @@ dots[, 3] <- rep(init.z, length = n)
 
 #### Setup results folder ####
 if(test == TRUE) {
-  folder.name <- paste("./tests/results/", surrogate.name, sep = "_")
   dir.create("./tests/results", showWarnings = FALSE)
-  dir.create(folder.name, showWarnings = FALSE)
-  write.table(parameters, paste(folder.name, "/parameters_used", sep = ""), 
+  if (surrogate.name == "scaling") {
+    dir.create("./tests/results/scaling", showWarnings = FALSE)
+    folder.name <- paste("./tests/results/scaling/cores", copl, "_npts", n, sep = "")
+    dir.create(folder.name, showWarnings = FALSE)
+  } else{
+    folder.name <- paste("./tests/results/", surrogate.name, sep = "")
+    dir.create(folder.name, showWarnings = FALSE)
+    write.table(parameters, paste(folder.name, "/parameters_used", sep = ""), 
               sep = " ", quote = FALSE, col.names = FALSE, row.names = FALSE)
+  }
 } else {
   folder.name.tmp <- paste("./results/run", Sys.Date(), sep = "_")
   tmp.no <- 1

@@ -144,13 +144,13 @@ source("./src/dotwalkr.R")
 assign("parameter.filename", "./tests/testdata/parameters-testconsty", envir = .GlobalEnv)
 source("./src/dotwalkr.R")
 
-dotsx <- read.table("./tests/results/_constx/dots_1.csv", header= TRUE)
+dotsx <- read.table("./tests/results/constx/dots_1.csv", header= TRUE)
 dotsx <- as.data.frame(dotsx)
 
-dotsy <- read.table("./tests/results/_consty/dots_1.csv", header= TRUE)
+dotsy <- read.table("./tests/results/consty/dots_1.csv", header= TRUE)
 dotsy <- as.data.frame(dotsy)
 
-dotsz <- read.table("./tests/results/_constz/dots_1.csv", header= TRUE)
+dotsz <- read.table("./tests/results/constz/dots_1.csv", header= TRUE)
 dotsz <- as.data.frame(dotsz)
 
 

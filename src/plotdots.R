@@ -2,8 +2,8 @@ library(viridis)
 
 source("./src/functions/plot_functions.R")
 
-run.name <- "keckrun1"
-surrogate.name <- "CL at Vzmin"
+run.name <- "keckrun2"
+surrogate.name <- "CLCD and CLVzmin"
 n <- 10000
 dt <- 100
 interval <- 1
