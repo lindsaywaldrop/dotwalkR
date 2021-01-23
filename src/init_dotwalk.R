@@ -22,7 +22,7 @@ if (exists("test") && test == TRUE) {
 for(i in 1:dim(parameters)[1]) {
   if (parameters$V1[i] == "surrogate.name") {
     tmp <- parameters$V2[i]
-  } else if (parameters$V1[i] == "test" || parameters$V1[i] == "windows" || parameters$V1[i] == "example") {
+  } else if (parameters$V1[i] == "test" || parameters$V1[i] == "windows" || parameters$V1[i] == "example" || parameters$V1[i] == "use.SI") {
     tmp <- as.logical(parameters$V2[i])
   }else {
     tmp<-as.numeric(parameters$V2[i])
@@ -42,7 +42,11 @@ surrogate <- load.matdata(surrogate.name, "surrogate", example, test)
 gradX <- load.matdata(surrogate.name, "gradx", example, test)
 gradY <- load.matdata(surrogate.name, "grady", example, test)
 gradZ <- load.matdata(surrogate.name, "gradz", example, test)
-A <- load.matdata(surrogate.name, "SI", example, test)
+if(use.SI == TRUE){
+  A <- load.matdata(surrogate.name, "SI", example, test)
+} else {
+  A <- matrix(data=c(0.6666, 1, 1, 1, 0.6666, 1, 1, 1, 0.6666), ncol = 3)
+}
 
 # Defines scaling parameter for random movements 
 if(surrogate.name == "constx" || surrogate.name == "consty" || surrogate.name == "constz"){
@@ -50,7 +54,6 @@ if(surrogate.name == "constx" || surrogate.name == "consty" || surrogate.name ==
 } else {
   randscale <- c(0.0450, 1e-3, 950) 
 }
-
 
 #### Setup dots ####
 # Creates dots at initial positions, value column initially NA

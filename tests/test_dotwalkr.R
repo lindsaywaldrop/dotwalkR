@@ -138,19 +138,29 @@ assign("test", as.logical("TRUE"),envir = .GlobalEnv)
 assign("parameter.filename", "./tests/testdata/parameters-testconstx", envir = .GlobalEnv)
 source("./src/dotwalkr.R")
 
+assign("parameter.filename", "./tests/testdata/parameters-testconstz", envir = .GlobalEnv)
+source("./src/dotwalkr.R")
+
+assign("parameter.filename", "./tests/testdata/parameters-testconsty", envir = .GlobalEnv)
+source("./src/dotwalkr.R")
+
 dotsx <- read.table("./tests/results/_constx/dots_1.csv", header= TRUE)
 dotsx <- as.data.frame(dotsx)
+
+dotsy <- read.table("./tests/results/_consty/dots_1.csv", header= TRUE)
+dotsy <- as.data.frame(dotsy)
+
+dotsz <- read.table("./tests/results/_constz/dots_1.csv", header= TRUE)
+dotsz <- as.data.frame(dotsz)
+
+
 test_that("Test constant x gradient climb",{
   expect_true(all(dotsx$x > 5.5))
   expect_true(all(dotsx$y == 0.1))
   expect_true(all(dotsx$z == 105000))
 })
 
-assign("parameter.filename", "./tests/testdata/parameters-testconsty", envir = .GlobalEnv)
-source("./src/dotwalkr.R")
 
-dotsy <- read.table("./tests/results/_consty/dots_1.csv", header= TRUE)
-dotsy <- as.data.frame(dotsy)
 test_that("Test constant y gradient climb",{
   expect_true(all(dotsy$x == 5.5))
   expect_true(all(dotsy$y > 0.1))
@@ -158,11 +168,6 @@ test_that("Test constant y gradient climb",{
 })
 
 
-assign("parameter.filename", "./tests/testdata/parameters-testconstz", envir = .GlobalEnv)
-source("./src/dotwalkr.R")
-
-dotsz <- read.table("./tests/results/_constz/dots_1.csv", header= TRUE)
-dotsz <- as.data.frame(dotsz)
 test_that("Test constant z gradient climb",{
   expect_true(all(dotsz$x == 5.5))
   expect_true(all(dotsz$y == 0.1))

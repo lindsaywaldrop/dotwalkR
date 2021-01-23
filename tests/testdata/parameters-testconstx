@@ -13,3 +13,4 @@ windows FALSE
 test TRUE
 example FALSE
 surrogate.name constx
+use.SI TRUE

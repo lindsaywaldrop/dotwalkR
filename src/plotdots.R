@@ -29,6 +29,7 @@ summary(dots_end)
 mean(as.numeric(dots_end$value))
 
 par(mfrow = c(1, 1))
-plot(dots_end$x, dots_end$y)
+plot(dots_end$x, dots_end$y, xlim = c(3, 12), ylim = c(0.0, 0.2), pch=19,
+     xlab = "AR", ylab = "Camber")
 
 boxplot(data.frame(dots_0$value, dots_end$value))

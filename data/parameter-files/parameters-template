@@ -12,4 +12,5 @@ copl 4
 windows FALSE
 test FALSE
 example TRUE
-surrogate.name clvz
+surrogate.name clcdclvz
+use.SI TRUE
