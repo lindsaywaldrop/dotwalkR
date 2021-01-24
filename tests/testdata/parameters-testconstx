@@ -10,6 +10,7 @@ k 1
 t.save.interval 10
 copl 1
 windows FALSE
+resume FALSE
 test TRUE
 example FALSE
 surrogate.name constx

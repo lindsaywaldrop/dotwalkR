@@ -8,6 +8,7 @@ walktowards 1
 k 0.00
 t.save.interval 10
 windows FALSE
+resume FALSE
 test TRUE
 example FALSE
 surrogate.name scaling

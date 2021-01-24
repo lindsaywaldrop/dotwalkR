@@ -20,7 +20,7 @@ if (exists("test") && test == TRUE) {
   parameters <- read.table(paste("./data/parameter-files/", parameter.filename, sep = ""), stringsAsFactors = FALSE)
 }
 for(i in 1:dim(parameters)[1]) {
-  if (parameters$V1[i] == "surrogate.name") {
+  if (parameters$V1[i] == "surrogate.name" || parameters$V1[i] == "resume") {
     tmp <- parameters$V2[i]
   } else if (parameters$V1[i] == "test" || parameters$V1[i] == "windows" || parameters$V1[i] == "example" || parameters$V1[i] == "use.SI") {
     tmp <- as.logical(parameters$V2[i])
@@ -35,7 +35,8 @@ if(test == FALSE) cluster <- register.backend(copl, windows)
 if(test == TRUE && surrogate.name == "scaling") cluster <- register.backend(copl, windows)
 
 # Loading input data 
-#source("./src/loadMatData.R")
+
+input.real <- load.matdata(surrogate.name, "input", example, test)
 input.real <- load.matdata(surrogate.name, "input", example, test)
 input.scaled<-scale.dots(input.real, range(input.real[, 1]), 
                          range(input.real[, 2]), range(input.real[, 3]))
@@ -57,12 +58,21 @@ if(surrogate.name == "constx" || surrogate.name == "consty" || surrogate.name ==
 }
 
 #### Setup dots ####
-# Creates dots at initial positions, value column initially NA
-dots <- matrix(data=NA, nrow = n, ncol = 4)
-colnames(dots) <- c("x","y","z","value")
-dots[, 1] <- rep(init.x, length = n)
-dots[, 2] <- rep(init.y, length = n)
-dots[, 3] <- rep(init.z, length = n)
+
+if (exists("resume") && resume != "FALSE"){
+  # Resume option: set "resume" as the path to a dot file to resume a simulation. 
+  dots <- read.table(resume, header=TRUE)
+  dots <- as.matrix(dots)
+  colnames(dots) <- c("x","y","z","value")
+  if(dim(dots)[1] != n) stop("Loaded dot file does not have the same number of dots as expected!")
+} else {
+  # Default: creates new dot array at initial positions, value column initially NA
+  dots <- matrix(data=NA, nrow = n, ncol = 4)
+  colnames(dots) <- c("x","y","z","value")
+  dots[, 1] <- rep(init.x, length = n)
+  dots[, 2] <- rep(init.y, length = n)
+  dots[, 3] <- rep(init.z, length = n)
+}
 
 #### Setup results folder ####
 if(test == TRUE) {
