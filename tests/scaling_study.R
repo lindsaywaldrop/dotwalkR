@@ -1,5 +1,4 @@
 ##### Scaling study for parallel computing ####
-library(reshape2)
 
 assign("parameter.filename", "./tests/testdata/parameters-scaling", envir = .GlobalEnv)
 assign("test", is.logical(TRUE))
