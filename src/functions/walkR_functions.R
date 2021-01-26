@@ -147,6 +147,8 @@ find.betas <- function(dots, gradX, gradY, gradZ, input.real, input.scaled, dN, 
   return(beta)
 }
 
+
+
 generaterandM <- function(n){
   a=-1;  
   b=1;

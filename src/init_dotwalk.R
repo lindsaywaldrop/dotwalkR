@@ -37,7 +37,6 @@ if(test == TRUE && surrogate.name == "scaling") cluster <- register.backend(copl
 # Loading input data 
 
 input.real <- load.matdata(surrogate.name, "input", example, test)
-input.real <- load.matdata(surrogate.name, "input", example, test)
 input.scaled<-scale.dots(input.real, range(input.real[, 1]), 
                          range(input.real[, 2]), range(input.real[, 3]))
 surrogate <- load.matdata(surrogate.name, "surrogate", example, test)

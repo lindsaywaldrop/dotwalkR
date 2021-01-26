@@ -10,9 +10,28 @@ The change in position during each time step (deltaf) is determined by two eleme
      `randscale.*((1-A %*% [1;1;1]).*M*dt)`
     where randscale is a scaling factor, A is a matrix determined by Sobol Indices, and M is a set of pseudo-random numbers.
     
-The scalar functions themselves are based on a 21x21x21 matrix of output values, representing a downsampled gPC surrogate function. In order to estimate the gradient of the scalar function at each dot's position, produce_surrogate_fxn.m produces a MATLAB interpolant using scatteredInterpolant: https://www.mathworks.com/help/matlab/ref/scatteredinterpolant.html 
+The scalar functions themselves are based on a 21x21x21 matrix of output values, representing a downsampled gPC surrogate function. In order to estimate the gradient of the scalar function at each dot's position, DotwalkR uses a Nearest Neighbor search function to find the closest grid points within the matrix of output values, then calculates a weighted mean of the surrogate value to use in the simulation. 
 
-Producing and loading the interpolant is a time-consuming process producing very large files (over 200 MB), but it is reasonably fast after the initial time sink. 
+Input data for DotwalkR are: 
+ * __Input data__: the x, y, and z coordinates of points on the input grid in one matrix file in long format (9261x3) with each column representing a dimensional coordinate value and each row representing a grid point in the domain. 
+ * __Surrogate function__: the value of the surrogate function at each grid point in the domain. This is downsampled from the full gPC surrogate function. 
+ * __gradx, grady, gradz__: the scalar values of each gradient along each dimensional coordinate necessary for the walkrs to determine the direction and magnitude of each step they should take. 
+ * __SI__: a matrix of 3 x 3 values of the Sobol indices of each dimensional coordinate and their interactions in the format: 
+A = \begin{bmatrix}
+x & x\& y & x\& z \\
+x\& y & y & y \& z \\
+x \& z & y \& z & z
+\end{bmatrix}
+
+
+
+## Installing DotwalkR
+
+After opening the RStudio project (or setting the working directory as the dotwalkr/ directory), source the install script: 
+
+`> source('install_dotwalkr.R')`
+
+This will install and load the required packages as well as run tests associated with the code. You will get one warning (this is ok!), all the tests should pass. 
 
 ## Required packages
 These are the current required packages that must be installed before running DotWalkR: 
@@ -20,6 +39,7 @@ These are the current required packages that must be installed before running Do
  * data.table
  * doParallel
  * foreach
+ * testthat
 
 ## How to run
 The code is working, however, it is incomplete as of now. But if you'd like to play around with the code, feel free to:  
