@@ -72,4 +72,8 @@ If you'd like to play around with the code, feel free to:
  * `surrogate.name` is the name of the surrogate value that you'd like to use for the simulation. Current valid values while `example` is TRUE are clcd, clvz, and clcdclvz. Be sure to check the example data path structure if using your own data, it needs to be in the form: ./data/`surrogate.name`/`surrogate.name`_`input names`.mat 
  * `use.SI` is a logical parameter that indicates whether or not you would like to use the SI values in a mat file associated with your surrogate. If FALSE, it creates its own matrix which will weight the random walk equally in all directions. 
  
+## Optional Scaling Study
 
+There is a scaling study provided with the DotWalkR main code's tests/ directory. Running this on a high-performance computing resource (or your local machine) can help you decide how to most efficiently run large-scale simulations. 
+
+Right now, scaling_study.R (in tests/) is set up to run on 1, 2, 4, 8, 16, and 24 cores (`copls` on line 7) using 10, 100, 1000, 10000, and 100000 dots (`ns` on line 8). You may change these to suit your own needs, feel free to explore your HPC resource. It outputs a CSV file which can be loaded and graphed using the commented code with the ggplot2 package. 

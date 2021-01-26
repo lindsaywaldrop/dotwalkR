@@ -33,8 +33,8 @@ write.csv(scaling.data, file = "./tests/results/scaling/scaling_data.csv")
 
 
 # For plotting with ggplot2
-scaling.data$points<-as.factor(scaling.data$points)
-scaling.data$cores<-as.factor(scaling.data$cores)
+#scaling.data$points<-as.factor(scaling.data$points)
+#scaling.data$cores<-as.factor(scaling.data$cores)
 #ggplot(scaling.data, aes(cores, elapsed, color=points,group=points)) + geom_point() +geom_line()
 #ggplot(scaling.data, aes(points, elapsed, color=cores,group=cores)) + geom_point() +geom_line() +
 #  scale_y_continuous(trans='log2')
