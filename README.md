@@ -16,13 +16,13 @@ Input data for DotwalkR are:
  * __Input data__: the x, y, and z coordinates of points on the input grid in one matrix file in long format (9261x3) with each column representing a dimensional coordinate value and each row representing a grid point in the domain. 
  * __Surrogate function__: the value of the surrogate function at each grid point in the domain. This is downsampled from the full gPC surrogate function. 
  * __gradx, grady, gradz__: the scalar values of each gradient along each dimensional coordinate necessary for the walkrs to determine the direction and magnitude of each step they should take. 
- * __SI__: a matrix of 3 x 3 values of the Sobol indices of each dimensional coordinate and their interactions in the format: 
-A = \begin{bmatrix}
-x & x\& y & x\& z \\
-x\& y & y & y \& z \\
-x \& z & y \& z & z
-\end{bmatrix}
 
+A variety of example input data are provided with the code in the data/example-data folder. These are: 
+ * CLCD: maximum lift-to-drag ratio,
+ * CLVZ: maximum lift coefficient at minimum sinking speed,
+ * CLCDCLVZ: a combined surrogate where each CLCD and CLVZ are weighted 50%. 
+
+Output for DotwalkR are the 3-dimensional positions and surrogate value at that position of each walking dot at the user-specified save intervals and at the beginning and end of the simulation. These will be found in the results/ folder corresponding to the simulation's date and number (assigned at runtime). 
 
 
 ## Installing DotwalkR
