@@ -16,6 +16,8 @@ Input data for DotwalkR are:
  * __Input data__: the x, y, and z coordinates of points on the input grid in one matrix file in long format (9261x3) with each column representing a dimensional coordinate value and each row representing a grid point in the domain. 
  * __Surrogate function__: the value of the surrogate function at each grid point in the domain. This is downsampled from the full gPC surrogate function. 
  * __gradx, grady, gradz__: the scalar values of each gradient along each dimensional coordinate necessary for the walkrs to determine the direction and magnitude of each step they should take. 
+ * __SI__: a matrix of 3 x 3 values of the Sobol indices of each dimensional coordinate and their interactions in the format:  
+   - <img src="https://latex.codecogs.com/gif.latex?A=\begin{bmatrix}SI_x&SI_{x\&y}&SI_{x\&z}\\SI_{x\&y}&SI_y&SI_{y\&z}\\SI_{x\&z}&SI_{y\&z}&SI_z\end{bmatrix}" />
 
 A variety of example input data are provided with the code in the data/example-data folder. These are: 
  * CLCD: maximum lift-to-drag ratio,
