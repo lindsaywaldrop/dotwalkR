@@ -10,7 +10,7 @@ k 0.01
 t.save.interval 100
 copl 4
 windows FALSE
-resume ./results/keckrun2/dots_10000.csv
+resume FALSE
 test FALSE
 example TRUE
 surrogate.name clcdclvz
