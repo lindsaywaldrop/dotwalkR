@@ -1,11 +1,12 @@
 library(viridis)
 
 source("./src/functions/plot_functions.R")
+dots.end<-rep(NA,4)
 
-run.name <- "keckrun2"
+run.name <- "run_2021-02-26_no3"
 surrogate.name <- "CLCD and CLVzmin"
 n <- 10000
-dt <- 100
+dt <- 200
 interval <- 1
 dots_0 <- read.table(paste("./results/", run.name, "/dots_0.csv", sep = ""), sep = " ", header = TRUE)
 clr<-viridis(n/dt+1, option = "C")
@@ -26,7 +27,7 @@ for (i in 1:length(mean.values)) points(x = time[i], y = mean.values[i], col=clr
 dots_end <- read.table(paste("./results/", run.name, "/dots_", n, ".csv", sep=""), 
                        sep = " ", header = TRUE)
 summary(dots_end)
-mean(as.numeric(dots_end$value))
+dots.end[1]<-mean(as.numeric(dots_end$value))
 
 par(mfrow = c(1, 1))
 plot(dots_end$x, dots_end$y, xlim = c(3, 12), ylim = c(0.0, 0.2), pch=19,

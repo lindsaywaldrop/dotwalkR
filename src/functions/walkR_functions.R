@@ -21,6 +21,7 @@ register.backend <- function(copl, windows = FALSE) {
   }
 }
 
+
 load.matdata <- function(surrogate.type, data.type, example = TRUE, test = FALSE){
   # Loading function which sets up matlab data in correct type. Specific naming structure 
   # for mat files required!
@@ -63,6 +64,16 @@ load.matdata <- function(surrogate.type, data.type, example = TRUE, test = FALSE
   return(data)
 }
 
+
+find.max.grad <- function(gradX, gradY, gradZ){
+  max.x <- max(gradX, na.rm = TRUE)
+  max.y <- max(gradY, na.rm = TRUE)
+  max.z <- max(gradZ, na.rm = TRUE)
+  max.grad <- max(c(max.x, max.y, max.z), na.rm = TRUE)
+  return(max.grad)
+}
+
+
 scale.dots <- function(dots, x.range, y.range, z.range){
   # Reshapes 3D positions of dots based on ranges provided.
   if (class(dots)[1] != "matrix") stop("dots must be a matrix")
@@ -91,13 +102,15 @@ scale.dots <- function(dots, x.range, y.range, z.range){
   return(dots.scaled)
 }
 
+
 save.dots <- function(folder.name, dots, time.now){
   # Saves dot file at specified time. 
   require(data.table)
   if(sum(is.na(dots)) != 0) warning("Dots contain NA values!!")
-  filename <- paste(folder.name, "/dots_",time.now,".csv", sep = "")
+  filename <- paste(folder.name, "/dots_" ,time.now, ".csv", sep = "")
   fwrite(data.frame(dots), file = filename, append = TRUE, sep = " ", nThread = 2)
 }
+
 
 getMeanValue <- function(vectors, values, testVector, desiredNeighbors) {
   # Gets mean surrogate value from the number of nearest-neighbor points. Mean
@@ -114,7 +127,7 @@ getMeanValue <- function(vectors, values, testVector, desiredNeighbors) {
   } else {
     stop("desiredNeighbors must be an integer or numeric")
   }
-  means1<-foreach(i=1:dim(testVector)[1]) %dopar% {
+  means1 <- foreach(i = 1:dim(testVector)[1]) %dopar% {
     distances <- matrix(data = NA, nrow = dim(vectors)[1], ncol = 2)
     colnames(distances) <- c("index","distance")
     distances[, 1] <- seq(1:dim(vectors)[1])
@@ -123,18 +136,15 @@ getMeanValue <- function(vectors, values, testVector, desiredNeighbors) {
                              (vectors[, 3] - testVector[i, 3])^2)
     distances2 <- as.data.table(distances)
     sorted.distances <- setkey(distances2, "distance")
-    #final.dist<- sorted.distances[1:desiredNeighbors, ]
-    #final.dist$wgts <- 1 - 20*(sorted.distances[1:desiredNeighbors, 2])
-    #final.dist$value <- values[final.dist$index]
-    #means[i] <- weighted.mean(as.numeric(final.dist$value), final.dist$wgts)
     idx <- sorted.distances[1:desiredNeighbors, ]
     wgts <- 1 - 20*(idx$distance)
     value <- values[idx$index]
     weighted.mean(as.numeric(value), wgts)
   }
-  means<-unlist(means1)
+  means <- unlist(means1)
   return(means)
 }
+
 
 find.betas <- function(dots, gradX, gradY, gradZ, input.real, input.scaled, dN, delta.t){
   scaled.dots <- scale.dots(dots, range(input.real[, 1]), 
@@ -143,26 +153,27 @@ find.betas <- function(dots, gradX, gradY, gradZ, input.real, input.scaled, dN, 
   dx <- getMeanValue(input.scaled, gradX, scaled.dots, dN)
   dy <- getMeanValue(input.scaled, gradY, scaled.dots, dN)
   dz <- getMeanValue(input.scaled, gradZ, scaled.dots, dN)
-  beta<-matrix(data = c(dx,dy,dz), ncol = 3)
+  beta <- matrix(data = c(dx,dy,dz), ncol = 3)
   return(beta)
 }
 
 
-
 generaterandM <- function(n){
-  a=-1;  
-  b=1;
-  M = (b-a)*runif(n)+a
+  a <- -1 
+  b <- 1
+  M <- (b - a)*runif(n) + a
+  return(M)
 }
 
+
 herd.dots <- function(dots, position, range.dots){
-  escaped.low <- which(dots[,position]<range.dots[1])
-  escaped.high <- which(dots[,position]>range.dots[2])
-  if (length(escaped.low)>0) {
-    dots[escaped.low,position] <- range.dots[1]
+  escaped.low <- which(dots[, position] < range.dots[1])
+  escaped.high <- which(dots[, position] > range.dots[2])
+  if (length(escaped.low) > 0) {
+    dots[escaped.low, position] <- range.dots[1]
   }
-  if (length(escaped.high)>0) {
-    dots[escaped.high,position] <- range.dots[2]
+  if (length(escaped.high) > 0) {
+    dots[escaped.high, position] <- range.dots[2]
   }
   return(dots)
 }
