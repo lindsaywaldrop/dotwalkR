@@ -3,9 +3,9 @@ library(viridis)
 source("./src/functions/plot_functions.R")
 dots.end<-rep(NA,4)
 
-run.name <- "run_2021-03-11_no9"
+run.name <- "run_2021-03-11_no11"
 surrogate.name <- "COT"
-n <- 1000
+n <- 300
 dt <- 100
 interval <- 1
 dots_0 <- read.table(paste("./results/", run.name, "/dots_0.csv", sep = ""), sep = " ", header = TRUE)
