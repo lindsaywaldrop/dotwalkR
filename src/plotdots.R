@@ -3,16 +3,16 @@ library(viridis)
 source("./src/functions/plot_functions.R")
 dots.end<-rep(NA,4)
 
-run.name <- "run_2021-02-26_no3"
-surrogate.name <- "CLCD and CLVzmin"
-n <- 10000
-dt <- 200
+run.name <- "run_2021-03-11_no8"
+surrogate.name <- "COT"
+n <- 700
+dt <- 100
 interval <- 1
 dots_0 <- read.table(paste("./results/", run.name, "/dots_0.csv", sep = ""), sep = " ", header = TRUE)
 clr<-viridis(n/dt+1, option = "C")
 par(mar=c(4,4,0.5,1),fig=c(0,1,0.3,1),new=TRUE)
-plot(dots_0$x[1], dots_0$y[1], xlim = c(3, 12), ylim = c(0.0, 0.2), 
-     xlab = "AR", ylab = "Camber")
+plot(dots_0$y[1], dots_0$z[1], xlim = c(0.4, 1), ylim = c(0.5, 2.0), 
+     xlab = "CR", ylab = "Freq")
 mean.values <- rep(NA, length = ((n/dt) + 1))
 mean.values[1]<-mean(as.numeric(dots_0$value), na.rm = TRUE)
 for (i in 0:(length(mean.values) - 1)) mean.values[i + 1] <- plotdot(run.name, i*dt, interval, clr[i + 1])
@@ -30,7 +30,7 @@ summary(dots_end)
 dots.end[1]<-mean(as.numeric(dots_end$value))
 
 par(mfrow = c(1, 1))
-plot(dots_end$x, dots_end$y, xlim = c(3, 12), ylim = c(0.0, 0.2), pch=19,
+plot(dots_end$x, dots_end$y, xlim = c(0.5, 10), ylim = c(0.4, 1.0), pch=19,
      xlab = "AR", ylab = "Camber")
 
 boxplot(data.frame(dots_0$value, dots_end$value))

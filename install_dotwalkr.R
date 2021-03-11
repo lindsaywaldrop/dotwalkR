@@ -3,7 +3,7 @@
 #### Required Packages ####
 message("Testing for required packages, installing if not found.")
 message(" ")
-packages <- c("testthat", "R.matlab","data.table", "parallel", "doParallel", 
+packages <- c("testthat", "R.matlab","pracma", "data.table", "parallel", "doParallel", 
               "foreach", "viridis")
 
 package.check <- lapply(

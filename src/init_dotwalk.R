@@ -54,12 +54,22 @@ if(use.SI == TRUE){
 if(surrogate.name == "constx" || surrogate.name == "consty" || surrogate.name == "constz"){
   randscale <- c(0, 0, 0)
 } else {
-  randscale <- c(0.0450, 1e-3, 950) 
+  x.range <- range(input.real[,1])
+  y.range <- range(input.real[,2])
+  z.range <- range(input.real[,3])
+  dims <- pracma::nthroot(length(input.real[, 1]), 3) - 1
+  x.step <- (x.range[2] - x.range[1])/(dims)
+  y.step <- (y.range[2] - y.range[1])/(dims)
+  z.step <- (z.range[2] - z.range[1])/(dims)
+  randscale <- c(x.step, y.step, z.step)
+  parameters <- rbind(parameters,
+                      c("randscale",paste(as.character(randscale),collapse=",")))
 }
 
 # Defines time step
 max.grad <- find.max.grad(gradX, gradY, gradZ)
-delta.t <- round(0.375*(1/(abs(max.grad)*k)), digits = 0)
+delta.t <- 0.375*(1/(abs(max.grad)*k))
+parameters<-rbind(parameters,c("delta.t",delta.t))
 
 #### Setup dots ####
 
