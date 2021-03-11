@@ -12,7 +12,7 @@ The change in position during each time step (`deltaf`) is determined by two ele
     
  * Randomness is injected by adding a pseudo-random number multiplied by 
  
-     `randscale*(1 - A)*M*delta.t`
+     `randscale*(1 - A)*M*(1-k)*delta.t`
      
     where `randscale` is a scaling factor, `A` is a matrix determined by Sobol Indices, and `M` is a set of pseudo-random numbers.
     
@@ -57,10 +57,12 @@ This will install and load the required packages as well as run tests associated
 These are the current required packages that must be installed before running DotWalkR: 
 
  * R.matlab
+ * pracma
  * data.table
  * doParallel
  * foreach
  * testthat
+ * viridis (for plotting only)
 
 ## How to run
 
@@ -97,6 +99,16 @@ TBD
  * `example` is a logical parameter to indicate whether you would like to use the example data provided with the repository. If you are using your own data, set as FALSE.
  * `surrogate.name` is the name of the surrogate value that you'd like to use for the simulation. Current valid values while `example` is TRUE are clcd, clvz, and clcdclvz. Be sure to check the example data path structure if using your own data, it needs to be in the form: ./data/`surrogate.name`/`surrogate.name`_`input names`.mat 
  * `use.SI` is a logical parameter that indicates whether or not you would like to use the SI values in a mat file associated with your surrogate. If FALSE, it creates its own matrix which will weight the random walk equally in all directions. 
+
+## More About k
+ 
+The selection-heritability coefficient `k` modifies the relative size of the steps between the selection component of the model to the random steps. The behavior of step size also depends on the time step size `delta.t`. Here is a table that describes the relative change in step size based on changing `k` with a single example surrogate. 
+
+| `k` | `delta.t` | `k*delta.t` | `(1/k)*delta.t` | Selection to random ratio |
+| 10  |  0.01995  | 0.1995      |  0.001995       | 100                       |
+|  1  |  0.1995   | 0.1995      |  0.1995         |   1                       |
+| 0.1 |  1.995    | 0.01995     |  1.995          | 0.01                      |
+| 0.01| 19.95     | 0.1995      |  1995           | 0.0001                    |
  
 ## Optional Scaling Study
 
