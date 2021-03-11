@@ -105,6 +105,7 @@ TBD
 The selection-heritability coefficient `k` modifies the relative size of the steps between the selection component of the model to the random steps. The behavior of step size also depends on the time step size `delta.t`. Here is a table that describes the relative change in step size based on changing `k` with a single example surrogate. 
 
 | `k` | `delta.t` | `k*delta.t` | `(1/k)*delta.t` | Selection to random ratio |
+|-----|-----------|-------------|-----------------|---------------------------|
 | 10  |  0.01995  | 0.1995      |  0.001995       | 100                       |
 |  1  |  0.1995   | 0.1995      |  0.1995         |   1                       |
 | 0.1 |  1.995    | 0.01995     |  1.995          | 0.01                      |
