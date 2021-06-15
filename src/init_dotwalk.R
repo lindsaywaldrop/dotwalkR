@@ -62,6 +62,7 @@ if(surrogate.name == "constx" || surrogate.name == "consty" || surrogate.name ==
   y.step <- (y.range[2] - y.range[1])/(dims)
   z.step <- (z.range[2] - z.range[1])/(dims)
   randscale <- c(x.step, y.step, z.step)
+  randscale <- c(1,1,1)
   parameters <- rbind(parameters,
                       c("randscale",paste(as.character(randscale),collapse=",")))
 }
