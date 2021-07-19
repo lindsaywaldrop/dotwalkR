@@ -1,6 +1,7 @@
 # DotWalkR - an evolutionary simulation
 
-DotWalkR is an evolutionary simulation that uses a forward Euler 'walk' to simulate organism lineage (dots) through a parameter space. Each dimensional axis represents an orthogonal parameter. The performance of the lineage in the parameter space is a function of the position of the animal in the space (a scalar function). 
+DotWalkR is an evolutionary simulation that uses a forward Euler 'walk' to simulate organism lineage (dots) through a parameter space. Each dimensional axis represents an orthogonal parameter. The performance of the lineage in the parameter space is a function of the position of the animal in the space (a scalar function).
+
 
 The change in position during each time step (`deltaf`) is determined by two elements:
  

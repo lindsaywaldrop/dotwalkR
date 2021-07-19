@@ -3,10 +3,10 @@ library(ggplot2)
 
 source("./src/functions/plot_functions.R")
 
-run.name <- "run_2021-06-14_no9"
-surrogate.name <- "COT"
+run.name <- "run_2021-06-15_no11"
+surrogate.name <- "Q"
 
-n <- 900
+n <- 1400
 dt <- 100
 interval <- 1
 
